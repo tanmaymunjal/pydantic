@@ -55,6 +55,7 @@ mod model_fields;
 mod none;
 mod nullable;
 mod prebuilt;
+mod sequence;
 mod set;
 mod string;
 mod time;
@@ -598,6 +599,8 @@ fn build_validator_inner(
         tuple::TupleValidator,
         // list/arrays
         list::ListValidator,
+        // sequences - generic sequence types (Sequence[T])
+        sequence::SequenceValidator,
         // sets - unique lists
         set::SetValidator,
         // dicts/objects (recursive)
@@ -771,6 +774,8 @@ pub enum CombinedValidator {
     Decimal(decimal::DecimalValidator),
     // lists
     List(list::ListValidator),
+    // sequences - generic sequence types (Sequence[T])
+    Sequence(sequence::SequenceValidator),
     // sets - unique lists
     Set(set::SetValidator),
     // tuples

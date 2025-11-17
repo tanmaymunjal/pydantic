@@ -1586,6 +1586,48 @@ def list_schema(
     )
 
 
+class SequenceSchema(TypedDict, total=False):
+    type: Required[Literal['sequence']]
+    items_schema: CoreSchema
+    ref: str
+    metadata: dict[str, Any]
+    serialization: SerSchema
+
+
+def sequence_schema(
+    items_schema: CoreSchema | None = None,
+    *,
+    ref: str | None = None,
+    metadata: dict[str, Any] | None = None,
+    serialization: SerSchema | None = None,
+) -> SequenceSchema:
+    """
+    Returns a schema that matches a Sequence type (e.g., `Sequence[int]`), e.g.:
+
+    ```py
+    from pydantic_core import SchemaValidator, core_schema
+
+    schema = core_schema.sequence_schema(core_schema.int_schema())
+    v = SchemaValidator(schema)
+    assert v.validate_python([1, 2, 3]) == [1, 2, 3]
+    assert v.validate_python((1, 2, 3)) == (1, 2, 3)
+    ```
+
+    Args:
+        items_schema: Schema for validating items in the sequence
+        ref: optional unique identifier of the schema, used to reference the schema in other places
+        metadata: Any other information you want to include with the schema, not used by pydantic-core
+        serialization: Custom serialization schema
+    """
+    return _dict_not_none(
+        type='sequence',
+        items_schema=items_schema,
+        ref=ref,
+        metadata=metadata,
+        serialization=serialization,
+    )
+
+
 # @deprecated('tuple_positional_schema is deprecated. Use pydantic_core.core_schema.tuple_schema instead.')
 def tuple_positional_schema(
     items_schema: list[CoreSchema],

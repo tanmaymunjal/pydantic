@@ -897,7 +897,7 @@ except ValidationError as exc:
     2 validation errors for M
     s1.is-instance[MySequence]
       Input should be an instance of MySequence [type=is_instance_of, input_value=['a'], input_type=list]
-    s1.function-after[MySequence(), json-or-python[json=list[int],python=chain[is-instance[Sequence],function-wrap[sequence_validator()]]]].0
+    s1.function-after[MySequence(), json-or-python[json=list[int],python=chain[is-instance[Sequence],sequence[int]]]].0
       Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='a', input_type=str]
     """
 ```

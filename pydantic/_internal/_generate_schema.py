@@ -1753,11 +1753,9 @@ class GenerateSchema:
 
         json_schema = smart_deepcopy(list_schema)
         python_schema = core_schema.is_instance_schema(typing.Sequence, cls_repr='Sequence')
-        if not typing_objects.is_any(items_type):
-            from ._validators import sequence_validator
-
+        if not typing_objects.is_any(items_type):  # Use Rust-native sequence validator instead of Python function
             python_schema = core_schema.chain_schema(
-                [python_schema, core_schema.no_info_wrap_validator_function(sequence_validator, list_schema)],
+                [python_schema, core_schema.sequence_schema(item_type_schema)],
             )
 
         serialization = core_schema.wrap_serializer_function_ser_schema(

@@ -46,11 +46,13 @@ requires-python = '>=3.9'
 dependencies = [
     'typing-extensions>=4.14.1',
     'annotated-types>=0.6.0',
-    # Keep this in sync with the version in the `check_pydantic_core_version()` function:
-    'pydantic-core==2.41.5',
     'typing-inspection>=0.4.2',
+    'pydantic-core',
 ]
 dynamic = ['version', 'readme']
+
+[tool.uv.sources]
+pydantic-core = { path = "./pydantic-core" , editable = true}
 
 [project.optional-dependencies]
 email = ['email-validator>=2.0.0']
